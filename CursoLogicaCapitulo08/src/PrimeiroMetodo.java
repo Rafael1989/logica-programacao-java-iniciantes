@@ -7,54 +7,59 @@ public class PrimeiroMetodo {
 		imprimirTraco();
 		
 		String[] cursos = new String[] {"Java EE", "Spring", "Java OO Avançado"};
-		
-		System.out.println("Escolha dentre os cursos abaixo:");
-		
-		for(int i = 0; i < cursos.length; i++) {
-			System.out.println("[" + i + "] - " + cursos[i]);
-		}
-		
-		System.out.print("O curso que voce deseja eh: ");
-		Integer posicaoCursoEscolhido = scanner.nextInt();
-		
-		Boolean cursoValido = posicaoCursoEscolhido >= 0 && posicaoCursoEscolhido < cursos.length;
-		
-		if(!cursoValido) {
-			System.out.println("Curso invalido");
-			System.exit(1);
-		}
+		exibirOpcoes("Escolha dentre os cursos abaixo:", cursos);
+		Integer posicaoCursoEscolhido = selecionarOpcao(scanner, cursos, "O curso que voce deseja eh: ");
+		String cursoEscolhido = obterOpcaoSelecionada(cursos, posicaoCursoEscolhido);
 		
 		imprimirTraco();
 		
 		String[] formasPagamento = new String[] {"Cartao de credito", "Boleto"};
+		exibirOpcoes("Escolha dentre as formas de pagamento abaixo:", formasPagamento);
+		Integer posicaoFormaPagamentoEscolhida = selecionarOpcao(scanner, formasPagamento, "Sua forma de pagamento é: ");
+		String formaPagamentoEscolhida = obterOpcaoSelecionada(formasPagamento, posicaoFormaPagamentoEscolhida);
 		
-		System.out.println("Escolha dentre as formas de pagamento abaixo:");
-
-		for(int i = 0; i < formasPagamento.length; i++) {
-			System.out.println("[" + i + "] - " + formasPagamento[i]);
-		}
-		
-		System.out.print("Sua forma de pagamento é: ");
-		Integer posicaoFormaPagamentoEscolhida = scanner.nextInt();
-		
-		Boolean posicaoValida = posicaoFormaPagamentoEscolhida >= 0 && posicaoFormaPagamentoEscolhida < formasPagamento.length;
-		
-		if(!posicaoValida) {
-			System.out.println("Forma de pagamento invalida");
-			System.exit(1);
-		}
-		
-		String cursoEscolhido = cursos[posicaoCursoEscolhido];
-		String formaPagamentoEscolhida = formasPagamento[posicaoFormaPagamentoEscolhida];
-		
-		imprimirTraco();
-		
-		System.out.println("Voce escolheu o curso: " + cursoEscolhido + " e a forma de pagamento: " + formaPagamentoEscolhida);
+		exibirResultado(cursoEscolhido, formaPagamentoEscolhida);
 
 		scanner.close();
 	}
 	
 	static void imprimirTraco() {
 		System.out.println("--------------------------------------------");
+	}
+	
+	static void exibirOpcoes(String titulo, String[] opcoes) {
+		System.out.println(titulo);
+		for(int i = 0; i < opcoes.length; i++) {
+			System.out.println("[" + i + "] - " + opcoes[i]);
+		}
+	}
+	
+	static Integer selecionarOpcao(Scanner scanner, String[] opcoes, String mensagem) {
+		System.out.print(mensagem);
+		Integer posicaoEscolhida = scanner.nextInt();
+		
+		Boolean posicaoValida = validarPosicao(posicaoEscolhida, opcoes.length);
+		
+		if(!posicaoValida) {
+			System.out.println("Opção inválida");
+			System.exit(1);
+		}
+		
+		return posicaoEscolhida;
+	}
+	
+	static Boolean validarPosicao(Integer posicao, Integer tamanhoArray) {
+		return posicao >= 0 && posicao < tamanhoArray;
+	}
+	
+	static void exibirResultado(String cursoEscolhido, String formaPagamentoEscolhida) {
+		imprimirTraco();
+		System.out.println("Voce escolheu o curso: " + cursoEscolhido);
+		System.out.println("Forma de pagamento: " + formaPagamentoEscolhida);
+		imprimirTraco();
+	}
+	
+	static String obterOpcaoSelecionada(String[] opcoes, Integer posicao) {
+		return opcoes[posicao];
 	}
 }
